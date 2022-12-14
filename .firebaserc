@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "staff-database-4efc8": {
+      "hosting": {
+        "staff-database": [
+          "staff-database-4efc8"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "staff-database-4efc8"
+  }
+}
