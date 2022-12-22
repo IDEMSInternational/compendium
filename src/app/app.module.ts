@@ -2,23 +2,35 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideFirestore,getFirestore, connectFirestoreEmulator } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { AddPersonComponent } from './components/add-person/add-person.component';
+import { SignInComponent } from './components/sign-in/sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AddPersonComponent,
+    SignInComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CoreModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
+    provideFirestore(() => { 
+      const firestore = getFirestore()
+      if (!environment.production) {
+        connectFirestoreEmulator(firestore, "localhost", 8080)
+      }
+      return firestore
+    }),
     provideStorage(() => getStorage())
   ],
   providers: [],
