@@ -1,0 +1,13 @@
+<p>People</p>
+<button (click)="logDbObject()">Log DB Object</button>
+<button (click)="logAllPeople()">Log all people to console</button>
+<button (click)="toggleAddingPerson()">Add Person</button>
+
+<div *ngIf="addingPerson">
+  <app-add-person></app-add-person>
+</div>
+<h3>All people:</h3>
+<div *ngFor="let person of people$ | async">
+  <p>{{person.firstName}} {{person.lastName}}</p>
+  <button (click)="deletePerson(person)">Delete</button>
+</div>

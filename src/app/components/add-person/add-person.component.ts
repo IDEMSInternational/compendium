@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { PersonService } from 'src/app/core/services/person/person.service';
+import { Component, OnInit } from '@angular/core';
 import { Person } from 'src/app/shared/models/person';
+import { PersonService } from 'src/app/core/services/person/person.service';
 
 @Component({
   selector: 'app-add-person',
@@ -9,20 +8,22 @@ import { Person } from 'src/app/shared/models/person';
   styleUrls: ['./add-person.component.scss']
 })
 export class AddPersonComponent implements OnInit {
-  people$: Observable<Person[]>;
+  person: Person = new Person
+  submitted = false
 
-  constructor(private personService: PersonService) {
-    this.people$ = this.personService.getAll()
+  constructor(private personService: PersonService) { }
+
+  ngOnInit(): void {
   }
 
-  ngOnInit(): void {}
-
-  logDbObject() {
-    this.personService.logFirestoreObject()
+  async savePerson() {
+    const docRef = await this.personService.create(this.person)
+    console.log("docRef ID:", docRef.id)
+    this.submitted = true
   }
 
-  logAllPeople() {
-    this.people$.forEach(value => console.log(value));
+  newPerson() {
+    this.submitted = false
+    this.person = new Person
   }
-
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
 import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
@@ -9,18 +10,21 @@ import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore, connectFirestoreEmulator } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
-import { AddPersonComponent } from './components/add-person/add-person.component';
+import { PeopleComponent } from './components/people/people.component';
 import { SignInComponent } from './components/sign-in/sign-in/sign-in.component';
+import { AddPersonComponent } from './components/add-person/add-person.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddPersonComponent,
-    SignInComponent
+    PeopleComponent,
+    SignInComponent,
+    AddPersonComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     CoreModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
