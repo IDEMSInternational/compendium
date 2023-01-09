@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, CollectionReference, doc, DocumentData, collectionData, addDoc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collection, CollectionReference, doc, DocumentData, collectionData, addDoc, updateDoc, deleteDoc, getDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Tag } from 'src/app/shared/models/tag';
 
@@ -32,5 +32,13 @@ export class TagService {
   delete(id: string) {
     const docRef = doc(this.firestore, "tags", id)
     return deleteDoc(docRef)
+  }
+
+  async getTagFromId(id: string) {
+    const docRef = doc(this.firestore, "tags", id)
+    console.log("docRef:", docRef)
+    const docSnapshot = await getDoc(docRef)
+    console.log("docSnapshot:", docSnapshot)
+    return docSnapshot.data() as Tag
   }
 }
