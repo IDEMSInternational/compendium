@@ -13,13 +13,15 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
 import { PeopleComponent } from './components/people/people.component';
 import { SignInComponent } from './components/sign-in/sign-in/sign-in.component';
 import { AddPersonComponent } from './components/add-person/add-person.component';
+import { PersonComponent } from './components/person/person.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PeopleComponent,
     SignInComponent,
-    AddPersonComponent
+    AddPersonComponent,
+    PersonComponent
   ],
   imports: [
     BrowserModule,

@@ -6,8 +6,15 @@
 <div *ngIf="addingPerson">
   <app-add-person></app-add-person>
 </div>
-<h3>All people:</h3>
-<div *ngFor="let person of people$ | async">
-  <p>{{person.firstName}} {{person.lastName}}</p>
-  <button (click)="deletePerson(person)">Delete</button>
+<div *ngIf="!activePerson">
+  <h3>All people:</h3>
+  <div *ngFor="let person of people$ | async">
+    <p>{{person.firstName}} {{person.lastName}}</p>
+    <button (click)="selectPerson(person)">View</button>
+  </div>
+</div>
+<div *ngIf="activePerson">
+  <!-- <button (click)="deletePerson(person)">Delete</button> -->
+  <app-person [person]="activePerson"></app-person>
+  <button (click)="deselectPerson()">Back</button>
 </div>
