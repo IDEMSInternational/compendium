@@ -1,4 +1,4 @@
-<p>People</p>
+<h1>People</h1>
 <button (click)="logDbObject()">Log DB Object</button>
 <button (click)="logAllPeople()">Log all people to console</button>
 <button (click)="toggleAddingPerson()">Add Person</button>
@@ -14,7 +14,6 @@
   </div>
 </div>
 <div *ngIf="activePerson">
-  <!-- <button (click)="deletePerson(person)">Delete</button> -->
   <app-person [person]="activePerson"></app-person>
   <button (click)="deselectPerson()">Back</button>
 </div>

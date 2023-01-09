@@ -18,7 +18,7 @@ export class AddPersonComponent implements OnInit {
 
   async savePerson() {
     const docRef = await this.personService.create(this.person)
-    console.log("docRef ID:", docRef.id)
+    console.log("Added person with ID:", docRef.id)
     this.submitted = true
   }
 

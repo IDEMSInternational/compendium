@@ -14,6 +14,9 @@ import { PeopleComponent } from './components/people/people.component';
 import { SignInComponent } from './components/sign-in/sign-in/sign-in.component';
 import { AddPersonComponent } from './components/add-person/add-person.component';
 import { PersonComponent } from './components/person/person.component';
+import { TagsComponent } from './components/tags/tags.component';
+import { AddTagComponent } from './components/add-tag/add-tag.component';
+import { TagComponent } from './components/tag/tag.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { PersonComponent } from './components/person/person.component';
     PeopleComponent,
     SignInComponent,
     AddPersonComponent,
-    PersonComponent
+    PersonComponent,
+    TagsComponent,
+    AddTagComponent,
+    TagComponent
   ],
   imports: [
     BrowserModule,

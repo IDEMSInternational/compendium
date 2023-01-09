@@ -1,0 +1,21 @@
+<div class="add-tag-form">
+  <div *ngIf="!submitted">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        required
+        [(ngModel)]="tag.name"
+        name="name"
+      />
+    </div>
+    <button (click)="saveTag()" class="btn btn-success">Submit</button>
+  </div>
+
+  <div *ngIf="submitted">
+    <p>Added tag: {{tag.name}}</p>
+    <button (click)="newTag()">Add Another</button>
+  </div>
+</div>
