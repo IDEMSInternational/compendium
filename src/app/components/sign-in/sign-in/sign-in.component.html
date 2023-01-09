@@ -1,0 +1,8 @@
+<div *ngIf="!(authService.user$ | async)">
+  <p>Please sign in below</p>
+  <button (click)="signInWithGoogle()">Sign in with Google</button>
+</div>
+<div *ngIf="authService.user$ | async">
+  <p>Hi, {{authService.user$.value?.displayName}}</p>
+  <button (click)="signOut()">Sign out</button>
+</div>
