@@ -1,0 +1,29 @@
+<div class="tag-container">
+  <h3>Selected Tag</h3>
+  <div *ngIf="editMode">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        required
+        [(ngModel)]="tag.name"
+        name="name"
+      />
+    </div>
+
+    <button (click)="updateTag()">Save</button>
+    <button (click)="deleteTag()">Delete</button>
+  </div>
+
+  <div *ngIf="!editMode">
+    <div *ngIf="!deleted">
+      <p>Name: {{tag.name}}</p>
+      <button (click)="toggleEditMode()">Edit</button>
+    </div>
+    <div *ngIf="deleted">
+      <p>{{tag.name}} was deleted.</p>
+    </div>
+  </div>
+</div>
