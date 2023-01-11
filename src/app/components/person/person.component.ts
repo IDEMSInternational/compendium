@@ -27,12 +27,9 @@ export class PersonComponent implements OnInit {
     if (this.person.tagIds) {
       for (let tagId of this.person.tagIds) {
         if (tagId) {
-          console.log("tagId:", tagId)
-          console.log("data:", (await this.tagService.getTagFromId(tagId)))
           this.assignedTags.push((await this.tagService.getTagFromId(tagId)))
         }
       }
-      console.log("assignedTags:", this.assignedTags)
     }
   }
 
@@ -81,7 +78,6 @@ export class PersonComponent implements OnInit {
     this.person.tagIds?.forEach((id, index) => {
       if (id === tagId) this.person.tagIds?.splice(index, 1)
     })
-
     this.personService.unassignTag(this.person.id!, tagId)
   }
 

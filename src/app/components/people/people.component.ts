@@ -19,14 +19,6 @@ export class PeopleComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  logDbObject() {
-    this.personService.logFirestoreObject()
-  }
-
-  logAllPeople() {
-    this.people$.forEach(value => console.log(value));
-  }
-
   toggleAddingPerson() {
     this.addingPerson = !this.addingPerson
   }
