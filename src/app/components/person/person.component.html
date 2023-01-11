@@ -1,41 +1,63 @@
 <div class="person-container">
   <h3>Selected Person</h3>
-  <div *ngIf="editMode">
-    <div class="form-group">
-      <label for="firstName">First Name</label>
-      <input
-        type="text"
-        class="form-control"
-        id="firstName"
-        required
-        [(ngModel)]="person.firstName"
-        name="firstName"
-      />
+  <div *ngIf="!deleted">
+    <div *ngIf="editingDetails">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          required
+          [(ngModel)]="person.firstName"
+          name="firstName"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input
+          class="form-control"
+          id="lastName"
+          required
+          [(ngModel)]="person.lastName"
+          name="lastName"
+        />
+      </div>
+
+      <button (click)="updatePerson()">Save</button>
+      <button (click)="toggleEditingDetails()">Cancel</button>
+      <button (click)="deletePerson()">Delete</button>
     </div>
 
-    <div class="form-group">
-      <label for="lastName">Last Name</label>
-      <input
-        class="form-control"
-        id="lastName"
-        required
-        [(ngModel)]="person.lastName"
-        name="lastName"
-      />
+    <div *ngIf="!editingDetails">
+      <p>First Name: {{ person.firstName }}</p>
+      <p>Last Name: {{ person.lastName }}</p>
+      <button (click)="toggleEditingDetails()">Edit Details</button>
     </div>
-
-    <button (click)="updatePerson()">Save</button>
-    <button (click)="deletePerson()">Delete</button>
+    <p>Tags:</p>
+    <div *ngFor="let tag of assignedTags">
+      <div *ngIf="tag">
+        <p>{{ tag.name }}</p>
+        <button (click)="unassignTag(tag.id!)">Remove Tag</button>
+      </div>
+    </div>
+    <div *ngIf="!addingTags">
+      <button (click)="toggleAddingTags()">Add Tags</button>
+    </div>
+    <div *ngIf="addingTags">
+      Available tags:
+      <div *ngFor="let tag of allTags$ | async">
+        <div *ngIf="tag.id">
+          <p>{{ tag.name }}</p>
+          <button (click)="assignTag(tag.id)">
+            Assign to {{ person.firstName }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div *ngIf="!editMode">
-    <div *ngIf="!deleted">
-      <p>First Name: {{person.firstName}}</p>
-      <p>Last Name: {{person.lastName}}</p>
-      <button (click)="toggleEditMode()">Edit</button>
-    </div>
-    <div *ngIf="deleted">
-      <p>{{person.firstName}} {{person.lastName}} was deleted.</p>
-    </div>
+  <div *ngIf="deleted">
+    <p>{{ person.firstName }} {{ person.lastName }} was deleted.</p>
   </div>
 </div>
