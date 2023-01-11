@@ -14,10 +14,6 @@ export class PersonService {
     this.peopleCollection = collection(this.firestore, "people")
   }
 
-  logFirestoreObject() {
-    console.log(this.firestore)
-  }
-
   getAll() {
     return collectionData(this.peopleCollection) as Observable<Person[]>
   }
