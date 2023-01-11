@@ -64,7 +64,9 @@ export class PersonComponent implements OnInit {
   }
 
   assignTag(tagId: string) {
-    if (this.person.tagIds?.indexOf(tagId) === -1) {
+    if (this.person.tagIds?.indexOf(tagId) !== -1) {
+      console.log("This tag is already assigned to this person")
+    } else {
       if (!this.person.tagIds) {
         this.person.tagIds = [tagId]
       } else {
@@ -72,15 +74,12 @@ export class PersonComponent implements OnInit {
       }
       this.updatePerson()
     }
-    else {
-      console.log("This tag is already assigned to this person")
-    }
   }
 
   unassignTag(tagId: string) {
     // Remove tagId from person.tagIds
     this.person.tagIds?.forEach((id, index) => {
-      if(id === tagId) this.person.tagIds?.splice(index, 1)
+      if (id === tagId) this.person.tagIds?.splice(index, 1)
     })
 
     this.personService.unassignTag(this.person.id!, tagId)
