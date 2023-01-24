@@ -11,34 +11,25 @@ import { Tag } from 'src/app/shared/models/tag';
   styleUrls: ['./person.component.scss']
 })
 export class PersonComponent implements OnInit {
-  @Input() person: Person = new Person
+  @Input() person: Person = new Person;
   allTags$: Observable<Tag[]>
-  assignedTags: Tag[] = []
   editingDetails = false
-  editingTags = false
   addingTags = false
   deleted = false
+  expanded = false
 
-  constructor(private personService: PersonService, public tagService: TagService) {
+  constructor(public personService: PersonService, public tagService: TagService) {
     this.allTags$ = this.tagService.getAll()
   }
 
-  async ngOnInit() {
-    if (this.person.tagIds) {
-      for (let tagId of this.person.tagIds) {
-        if (tagId) {
-          this.assignedTags.push((await this.tagService.getTagFromId(tagId)))
-        }
-      }
-    }
+  async ngOnInit() { }
+
+  toggleExpanded() {
+    this.expanded = !this.expanded
   }
 
   toggleEditingDetails() {
     this.editingDetails = !this.editingDetails
-  }
-
-  toggleEditingTags() {
-    this.editingTags = !this.editingTags
   }
 
   toggleAddingTags() {
@@ -61,7 +52,7 @@ export class PersonComponent implements OnInit {
   }
 
   assignTag(tagId: string) {
-    if (this.person.tagIds?.indexOf(tagId) !== -1) {
+    if (this.person.tagIds && this.person.tagIds.indexOf(tagId) !== -1) {
       console.log("This tag is already assigned to this person")
     } else {
       if (!this.person.tagIds) {
@@ -78,7 +69,7 @@ export class PersonComponent implements OnInit {
     this.person.tagIds?.forEach((id, index) => {
       if (id === tagId) this.person.tagIds?.splice(index, 1)
     })
-    this.personService.unassignTag(this.person.id!, tagId)
+    this.tagService.unassignTag(this.person.id!, tagId)
   }
 
   async getTagFromId(tagId: string) {

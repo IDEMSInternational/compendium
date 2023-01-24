@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, CollectionReference, doc, DocumentData, collectionData, addDoc, updateDoc, deleteDoc, getDoc } from '@angular/fire/firestore';
+import { Firestore, collection, CollectionReference, doc, DocumentData, collectionData, addDoc, updateDoc, deleteDoc, getDoc, arrayUnion, arrayRemove } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { PersonService } from '../person/person.service';
 import { Tag } from 'src/app/shared/models/tag';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Tag } from 'src/app/shared/models/tag';
 export class TagService {
   private tagsCollection: CollectionReference<DocumentData>;
 
-  constructor(private firestore: Firestore) {
+  constructor(private firestore: Firestore, private personService: PersonService) {
     this.tagsCollection = collection(this.firestore, "tags")
   }
 
@@ -29,8 +30,14 @@ export class TagService {
     return updateDoc(docRef, data)
   }
 
-  delete(id: string) {
-    const docRef = doc(this.firestore, "tags", id)
+  async delete(tagId: string) {
+    // First remove tag reference from people it is assigned to
+    const peopleWithTag = await this.personService.getPeopleWithTag(tagId)
+    for (let person of peopleWithTag) {
+      this.unassignTag(person.id!, tagId)
+    }
+    // Then delete tag
+    const docRef = doc(this.firestore, "tags", tagId)
     return deleteDoc(docRef)
   }
 
@@ -40,5 +47,19 @@ export class TagService {
     const docSnapshot = await getDoc(docRef)
     console.log("docSnapshot:", docSnapshot)
     return docSnapshot.data() as Tag
+  }
+
+  assignTag(personId: string, tagId: string) {
+    const personRef = doc(this.firestore, "people", personId)
+    updateDoc(personRef, {
+      tagIds: arrayUnion(tagId)
+    })
+  }
+
+  async unassignTag(personId: string, tagId: string) {
+    const personRef = doc(this.firestore, "people", personId)
+    updateDoc(personRef, {
+      tagIds: arrayRemove(tagId)
+    })
   }
 }
