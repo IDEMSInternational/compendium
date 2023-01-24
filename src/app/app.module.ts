@@ -17,6 +17,7 @@ import { PersonComponent } from './components/person/person.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { AddTagComponent } from './components/add-tag/add-tag.component';
 import { TagComponent } from './components/tag/tag.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { TagComponent } from './components/tag/tag.component';
       }
       return firestore
     }),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
