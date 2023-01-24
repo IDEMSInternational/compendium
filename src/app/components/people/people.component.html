@@ -7,11 +7,6 @@
 <div *ngIf="!activePerson">
   <h3>All people:</h3>
   <div *ngFor="let person of people$ | async">
-    <p>{{person.firstName}} {{person.lastName}}</p>
-    <button (click)="selectPerson(person)">View</button>
+    <app-person [person]="person"></app-person>
   </div>
-</div>
-<div *ngIf="activePerson">
-  <app-person [person]="activePerson"></app-person>
-  <button (click)="deselectPerson()">Back</button>
 </div>

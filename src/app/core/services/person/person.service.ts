@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, CollectionReference, doc, DocumentData, collectionData, addDoc, updateDoc, deleteDoc, arrayUnion, FieldValue, arrayRemove, getDoc } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Firestore, collection, CollectionReference, doc, DocumentData, collectionData, addDoc, updateDoc, deleteDoc, query, where } from '@angular/fire/firestore';
+import { Observable, firstValueFrom } from 'rxjs';
 import { Person } from 'src/app/shared/models/person';
-import { TagService } from '../tag/tag.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +9,7 @@ import { TagService } from '../tag/tag.service';
 export class PersonService {
   private peopleCollection: CollectionReference<DocumentData>;
 
-  constructor(private firestore: Firestore, private tagService: TagService) {
+  constructor(private firestore: Firestore) {
     this.peopleCollection = collection(this.firestore, "people")
   }
 
@@ -35,19 +34,8 @@ export class PersonService {
     return deleteDoc(docRef)
   }
 
-  assignTag(personId: string, tagId: string) {
-    const personRef = doc(this.firestore, "people", personId)
-    updateDoc(personRef, {
-      tagIds: arrayUnion(tagId)
-    })
+  async getPeopleWithTag(tagId: string) {
+    const people$ = collectionData(query(this.peopleCollection, where("tagIds", "array-contains", tagId))) as Observable<Person>
+    return await firstValueFrom(people$) as Person[]
   }
-
-  async unassignTag(personId: string, tagId: string) {
-    const personRef = doc(this.firestore, "people", personId)
-    updateDoc(personRef, {
-      tagIds: arrayRemove(tagId)
-    })
-    console.log("personDoc data:", (await getDoc(personRef)).data())
-  }
-
 }

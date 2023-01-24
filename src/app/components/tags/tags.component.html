@@ -7,11 +7,6 @@
 <div *ngIf="!activeTag">
   <h3>All tags:</h3>
   <div *ngFor="let tag of tags$ | async">
-    <p>{{tag.name}}</p>
-    <button (click)="selectTag(tag)">View</button>
+    <app-tag [tagId]="tag.id"></app-tag>
   </div>
-</div>
-<div *ngIf="activeTag">
-  <app-tag [tag]="activeTag"></app-tag>
-  <button (click)="deselectTag()">Back</button>
 </div>

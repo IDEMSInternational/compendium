@@ -1,6 +1,10 @@
-<div class="person-container">
-  <h3>Selected Person</h3>
-  <div *ngIf="!deleted">
+<div *ngIf="!expanded">
+  <p>{{ person.firstName }} {{ person.lastName }}</p>
+  
+  <button (click)="toggleExpanded()">Expand</button>
+</div>
+<div *ngIf="expanded">
+  <div *ngIf="!deleted" class="person-container">
     <div *ngIf="editingDetails">
       <div class="form-group">
         <label for="firstName">First Name</label>
@@ -31,16 +35,12 @@
     </div>
 
     <div *ngIf="!editingDetails">
-      <p>First Name: {{ person.firstName }}</p>
-      <p>Last Name: {{ person.lastName }}</p>
+      <p>{{ person.firstName }} {{ person.lastName }}</p>
       <button (click)="toggleEditingDetails()">Edit Details</button>
     </div>
     <p>Tags:</p>
-    <div *ngFor="let tag of assignedTags">
-      <div *ngIf="tag">
-        <p>{{ tag.name }}</p>
-        <button (click)="unassignTag(tag.id!)">Remove Tag</button>
-      </div>
+    <div *ngFor="let tagId of person.tagIds">
+      <app-tag [tagId]="tagId" [personId]="person.id"></app-tag>
     </div>
     <div *ngIf="!addingTags">
       <button (click)="toggleAddingTags()">Add Tags</button>
@@ -60,4 +60,5 @@
   <div *ngIf="deleted">
     <p>{{ person.firstName }} {{ person.lastName }} was deleted.</p>
   </div>
+  <button (click)="toggleExpanded()">Collapse</button>
 </div>

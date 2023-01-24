@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { PersonService } from 'src/app/core/services/person/person.service';
 import { TagService } from 'src/app/core/services/tag/tag.service';
+import { Person } from 'src/app/shared/models/person';
 import { Tag } from 'src/app/shared/models/tag';
 
 @Component({
@@ -8,13 +10,18 @@ import { Tag } from 'src/app/shared/models/tag';
   styleUrls: ['./tag.component.scss']
 })
 export class TagComponent implements OnInit {
-  @Input() tag: Tag = new Tag
+  @Input() tagId: Tag["id"]
+  @Input() personId: Person["id"]
+  tag: Tag = new Tag
   editMode = false
   deleted = false
 
   constructor(private tagService: TagService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    if (this.tagId) {
+      this.tag = await this.tagService.getTagFromId(this.tagId)
+    }
   }
 
   toggleEditMode() {
@@ -36,4 +43,9 @@ export class TagComponent implements OnInit {
     }
   }
 
+  removeFromPerson(personId: string | undefined) {
+    if (personId && this.tag.id) {
+      this.tagService.unassignTag(personId, this.tag.id)
+    }
+  }
 }
