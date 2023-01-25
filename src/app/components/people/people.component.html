@@ -1,12 +1,12 @@
 <h1>People</h1>
-<button mat-flat-button color="primary" (click)="toggleAddingPerson()">Add Person</button>
+<button mat-flat-button color="primary" (click)="toggleAddingPerson()">
+  + New Person
+</button>
 
 <div *ngIf="addingPerson">
   <app-add-person></app-add-person>
 </div>
-<div *ngIf="!activePerson">
-  <h3>All people:</h3>
-  <div *ngFor="let person of people$ | async">
-    <app-person [person]="person"></app-person>
-  </div>
+<div *ngFor="let person of people$ | async">
+  <app-person [person]="person"></app-person>
+  <br />
 </div>

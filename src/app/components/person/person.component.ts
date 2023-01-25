@@ -26,6 +26,7 @@ export class PersonComponent implements OnInit {
 
   toggleExpanded() {
     this.expanded = !this.expanded
+    this.editingDetails = false
   }
 
   toggleEditingDetails() {

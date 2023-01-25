@@ -11,7 +11,6 @@ import { Person } from 'src/app/shared/models/person';
 export class PeopleComponent implements OnInit {
   people$: Observable<Person[]>;
   addingPerson = false
-  activePerson: Person | null = null
 
   constructor(private personService: PersonService) {
     this.people$ = this.personService.getAll()
@@ -23,11 +22,4 @@ export class PeopleComponent implements OnInit {
     this.addingPerson = !this.addingPerson
   }
 
-  selectPerson(person: Person) {
-    this.activePerson = person
-  }
-
-  deselectPerson() {
-    this.activePerson = null
-  }
 }
