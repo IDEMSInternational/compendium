@@ -1,5 +1,5 @@
 <h1>People</h1>
-<button (click)="toggleAddingPerson()">Add Person</button>
+<button mat-flat-button color="primary" (click)="toggleAddingPerson()">Add Person</button>
 
 <div *ngIf="addingPerson">
   <app-add-person></app-add-person>
