@@ -40,7 +40,7 @@
       "port": 8080
     },
     "hosting": {
-      "port": 5002
+      "port": 4200
     },
     "ui": {
       "enabled": true
