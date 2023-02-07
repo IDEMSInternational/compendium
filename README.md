@@ -42,4 +42,4 @@ $ npm run serve
 ```
 This will start emulators for Firebase Hosting (which hosts the app), Firebase Authentication (which handles authenticating users), Firestore (a realtime NoSQL database). The emulator UI should be available at http://localhost:4000/.
 
-Navigate to http://localhost:5002/ to view the app. Whilst Firebase Hosting does not support hot-reloading, files will be watched while `npm run serve` is running, and any changes should be reflected in your browser after you refresh the page.
+Navigate to http://localhost:4200/ to view the app. Whilst Firebase Hosting does not support hot-reloading, files will be watched while `npm run serve` is running, and any changes should be reflected in your browser after you refresh the page.
