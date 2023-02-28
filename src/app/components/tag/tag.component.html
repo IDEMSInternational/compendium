@@ -1,30 +1,48 @@
-<div class="tag-container">
-  <div *ngIf="!deleted">
-    <div *ngIf="!editMode">
-      <p>{{ tag.name }}</p>
-      <span *ngIf="personId" (click)="removeFromPerson(personId)">x</span>
-      <button *ngIf="!personId" (click)="toggleEditMode()">Edit</button>
-    </div>
+<ng-container *ngIf="personId">
+  <div class="tag-pill">
+    <p>
+      {{ tag.name }}
+    </p>
+    <button
+      mat-icon-button
+      *ngIf="personId"
+      (click)="removeFromPerson(personId)"
+    >
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </div>
+</ng-container>
 
-    <div *ngIf="editMode">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="name"
-          required
-          [(ngModel)]="tag.name"
-          name="name"
-        />
+<ng-container *ngIf="!personId">
+  <div class="tag-container">
+    <div *ngIf="!deleted">
+      <div *ngIf="!editMode">
+          <p>
+            {{ tag.name }}
+          </p>
+        <button (click)="toggleEditMode()">Edit</button>
       </div>
 
-      <button (click)="updateTag()">Save</button>
-      <button (click)="deleteTag()">Delete Tag</button>
-      <button (click)="toggleEditMode()">Cancel</button>
+      <div *ngIf="editMode">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            required
+            [(ngModel)]="tag.name"
+            name="name"
+          />
+        </div>
+
+        <button (click)="updateTag()">Save</button>
+        <button (click)="deleteTag()">Delete Tag</button>
+        <button (click)="toggleEditMode()">Cancel</button>
+      </div>
+    </div>
+    <div *ngIf="deleted">
+      <p>{{ tag.name }} was deleted.</p>
     </div>
   </div>
-  <div *ngIf="deleted">
-    <p>{{ tag.name }} was deleted.</p>
-  </div>
-</div>
+</ng-container>
