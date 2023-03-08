@@ -17,12 +17,16 @@ import { PersonComponent } from './components/person/person.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { AddTagComponent } from './components/add-tag/add-tag.component';
 import { TagComponent } from './components/tag/tag.component';
+import { EntitiesComponent } from './components/entities/entities.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select'
 
 @NgModule({
   declarations: [
@@ -33,7 +37,8 @@ import { MatChipsModule } from '@angular/material/chips';
     PersonComponent,
     TagsComponent,
     AddTagComponent,
-    TagComponent
+    TagComponent,
+    EntitiesComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +60,9 @@ import { MatChipsModule } from '@angular/material/chips';
     MatToolbarModule,
     MatCardModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    MatFormFieldModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
