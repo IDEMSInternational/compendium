@@ -1,36 +1,40 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, CollectionReference, doc, DocumentData, collectionData, addDoc, updateDoc, deleteDoc, query, where, getDoc, docData } from '@angular/fire/firestore';
-import { Observable, firstValueFrom, map } from 'rxjs';
-import { EntityType, EntityFieldType, EntityLink, Entity, EntityFieldValue } from 'src/app/shared/models/entities'
+import {
+  AuthChangeEvent,
+  AuthSession,
+  createClient,
+  Session,
+  SupabaseClient,
+  User,
+} from '@supabase/supabase-js'
+import { Database } from 'src/app/shared/models/database.types';
+import { environment } from 'src/environments/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class EntityService {
-  entityCollection: CollectionReference<DocumentData>
-  entityTypesCollection: CollectionReference<DocumentData>;
-  entities$: Observable<Entity[]>
-  entityTypes$: Observable<EntityType[]>
+  private supabase: SupabaseClient<Database>
 
-  constructor(private firestore: Firestore) {
-    this.entityCollection = collection(this.firestore, "entities")
-    this.entityTypesCollection = collection(this.firestore, "entityTypes")
-
-    this.entities$ = collectionData(this.entityCollection) as Observable<Entity[]>
-    this.entityTypes$ = collectionData(this.entityTypesCollection) as Observable<EntityType[]>
+  constructor() {
+    this.supabase = createClient<Database>(environment.supabaseConfig.supabaseUrl, environment.supabaseConfig.supabaseKey)
   }
 
-  getAllEntities() {
-    return collectionData(this.entityCollection) as Observable<Entity[]>
+  async getEntities() {
+    return await this.supabase.from("entity").select("*")
   }
 
-  getAllEntityTypes() {
-    return collectionData(this.entityTypesCollection) as Observable<EntityType[]>
+  async getEntitiesByType(entityTypeId: number) {
+    return await this.supabase.from("entity").select("*").eq("entity_type_id", entityTypeId)
   }
 
-  getEntitiesOfType(entityTypeId: string) {
-    const entities$ = collectionData(query(this.entityCollection, where("entityTypeId", "==", entityTypeId)), { idField: "id" })
-    return entities$.pipe(map((data) => data as Entity[]))
+  async getFieldsForEntity(entityId: number) {
+    return await this.supabase
+      .from("entity_field_value")
+      .select(`value,
+        entity_field_type (field)
+      `)
+      .eq("entity_id", entityId)
   }
 
 }

@@ -6,7 +6,7 @@ import { Person } from 'src/app/shared/models/person';
 import { Tag } from 'src/app/shared/models/tag';
 
 @Component({
-  selector: 'app-person',
+  selector: 'app-person-firebase',
   templateUrl: './person.component.html',
   styleUrls: ['./person.component.scss']
 })

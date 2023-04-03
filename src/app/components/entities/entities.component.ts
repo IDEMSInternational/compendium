@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { firstValueFrom, Observable, map, filter } from 'rxjs';
+import { firstValueFrom, Observable, map, filter, BehaviorSubject, switchMap } from 'rxjs';
 import { EntityService } from 'src/app/core/services/entity/entity.service';
-import { Entity, EntityType } from 'src/app/shared/models/entities';
+import { Entity } from 'src/app/shared/models/entity.types';
 
 @Component({
   selector: 'app-entities',
@@ -9,23 +9,40 @@ import { Entity, EntityType } from 'src/app/shared/models/entities';
   styleUrls: ['./entities.component.scss']
 })
 export class EntitiesComponent implements OnInit {
-  entities$ = this.entityService.entities$;
-  entityTypes$ = this.entityService.entityTypes$;
-  activeEntityType: EntityType | undefined
+  loading: boolean = false
+  entities: Entity[] | undefined
+  fields: any
+  entitiesWithFields: any;
 
   constructor(private entityService: EntityService) {
   }
 
   async ngOnInit() {
-    this.activeEntityType = (await firstValueFrom(this.entityTypes$))[0]
+    try {
+      this.loading = true
+      const { data: entities, error, status } = await this.entityService.getEntities()
+  
+      if (error && status !== 406) {
+        throw error
+      }
+  
+      if (entities) {
+        this.entities = entities
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message)
+      }
+    } finally {
+      this.loading = false
+    }  
+
+    this.entitiesWithFields = await Promise.all(this.entities!.map(entity => this.getFieldsForEntity(entity.id)))
   }
 
-  applyFilter() {
-    if (this.activeEntityType) this.entities$ = this.entityService.getEntitiesOfType(this.activeEntityType.id)
-  }
-
-  onSelectChange() {
-    console.log(this.activeEntityType)
+  async getFieldsForEntity(entityId: number) {
+    const fields = await this.entityService.getFieldsForEntity(entityId)
+    return fields
   }
 
 }

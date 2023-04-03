@@ -1,7 +1,7 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 
 import { PersonService } from './services/person/person.service';
-import { AuthService } from './services/auth/auth.service';
+import { AuthService } from './services/firebase/auth/auth.service';
 
 @NgModule({
   declarations: [],

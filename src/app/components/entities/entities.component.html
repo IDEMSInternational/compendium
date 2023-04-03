@@ -1,18 +1,6 @@
-<mat-form-field appearance="fill">
-  <mat-label>Showing</mat-label>
-  <mat-select [(value)]="activeEntityType" (selectionChange)="applyFilter()">
-    <mat-option
-      *ngFor="let entityType of entityTypes$ | async"
-      [value]="entityType"
-    >
-      {{ entityType.namePlural | titlecase}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+<h1>Entities</h1>
 
-<h1>{{activeEntityType?.namePlural | titlecase}}</h1>
-
-<div *ngFor="let entity of entities$ | async">
+<div *ngFor="let entity of entities">
   {{ entity.name | titlecase }}
-  <!-- {{ entity | json }} -->
+  <app-entity [entity]="entity"></app-entity>
 </div>
