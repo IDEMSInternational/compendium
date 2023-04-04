@@ -21,7 +21,11 @@ export class EntityService {
   }
 
   async getEntities() {
-    return await this.supabase.from("entity").select("*")
+    return await this.supabase
+      .from("entity")
+      .select("*")
+      // Ordering by a related table is a feature pending release https://github.com/supabase/postgrest-js/issues/198#issuecomment-1355838953
+      // .order("entity_type(display_order)")
   }
 
   async getEntitiesByType(entityTypeId: number) {
@@ -35,6 +39,10 @@ export class EntityService {
         entity_field_type (field)
       `)
       .eq("entity_id", entityId)
+  }
+
+  async getEntityTypes() {
+    return await this.supabase.from("entity_type").select("*")
   }
 
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { firstValueFrom, Observable, map, filter, BehaviorSubject, switchMap } from 'rxjs';
 import { EntityService } from 'src/app/core/services/entity/entity.service';
-import { Entity } from 'src/app/shared/models/entity.types';
+import { Entity, EntityTypeIdToDisplayOrderMap } from 'src/app/shared/models/entity.types';
 
 @Component({
   selector: 'app-entities',
@@ -12,22 +11,28 @@ export class EntitiesComponent implements OnInit {
   loading: boolean = false
   entities: Entity[] | undefined
   fields: any
-  entitiesWithFields: any;
+  entityTypeIdToDisplayOrderMap: EntityTypeIdToDisplayOrderMap = {}
 
   constructor(private entityService: EntityService) {
   }
 
   async ngOnInit() {
+    await this.getEntityTypeIdToDisplayOrderMap()
+    await this.getEntities()
+  }
+
+  async getEntities() {
     try {
       this.loading = true
       const { data: entities, error, status } = await this.entityService.getEntities()
-  
       if (error && status !== 406) {
         throw error
       }
-  
       if (entities) {
         this.entities = entities
+        this.entities.sort((a, b) => {
+          return (this.entityTypeIdToDisplayOrderMap[a.entity_type_id || 0] > this.entityTypeIdToDisplayOrderMap[b.entity_type_id || 0]) ? 1 : -1
+        })
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -35,14 +40,29 @@ export class EntitiesComponent implements OnInit {
       }
     } finally {
       this.loading = false
-    }  
-
-    this.entitiesWithFields = await Promise.all(this.entities!.map(entity => this.getFieldsForEntity(entity.id)))
+    }
   }
 
-  async getFieldsForEntity(entityId: number) {
-    const fields = await this.entityService.getFieldsForEntity(entityId)
-    return fields
-  }
+  async getEntityTypeIdToDisplayOrderMap() {
+    try {
+      this.loading = true
+      const { data: entityTypes, error, status } = await this.entityService.getEntityTypes()
 
+      if (error && status !== 406) {
+        throw error
+      }
+
+      if (entityTypes) {
+        entityTypes.forEach((entityType) => {
+          this.entityTypeIdToDisplayOrderMap[entityType.id] = entityType.display_order || Infinity
+        })
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message)
+      }
+    } finally {
+      this.loading = false
+    }
+  }
 }
