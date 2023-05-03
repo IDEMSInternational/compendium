@@ -1,8 +1,6 @@
-import { firebaseConfig } from "./firebaseConfig";
 import { supabaseConfig, supabaseConfigLocal } from "./supabaseConfig";
 
 export const environment = {
-  firebaseConfig,
   supabaseConfig,
   production: false
 };
