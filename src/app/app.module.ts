@@ -5,11 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideFirestore, getFirestore, connectFirestoreEmulator } from '@angular/fire/firestore';
-import { provideStorage, getStorage } from '@angular/fire/storage';
 import { AddPersonComponent } from './components/add-person/add-person.component';
 import { EntitiesComponent } from './components/entities/entities.component';
 
@@ -38,16 +34,6 @@ import { EntityComponent } from './components/entity/entity.component';
     FormsModule,
     ReactiveFormsModule,
     CoreModule,
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => {
-      const firestore = getFirestore()
-      if (!environment.production) {
-        connectFirestoreEmulator(firestore, "localhost", 8080)
-      }
-      return firestore
-    }),
-    provideStorage(() => getStorage()),
     BrowserAnimationsModule,
     MatButtonModule,
     MatToolbarModule,
