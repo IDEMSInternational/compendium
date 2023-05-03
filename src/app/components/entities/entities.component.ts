@@ -19,6 +19,7 @@ export class EntitiesComponent implements OnInit {
   async ngOnInit() {
     await this.getEntityTypeIdToDisplayOrderMap()
     await this.getEntities()
+    this.orderEntitiesByEntityType()
   }
 
   async getEntities() {
@@ -30,9 +31,6 @@ export class EntitiesComponent implements OnInit {
       }
       if (entities) {
         this.entities = entities
-        this.entities.sort((a, b) => {
-          return (this.entityTypeIdToDisplayOrderMap[a.entity_type_id || 0] > this.entityTypeIdToDisplayOrderMap[b.entity_type_id || 0]) ? 1 : -1
-        })
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -63,6 +61,14 @@ export class EntitiesComponent implements OnInit {
       }
     } finally {
       this.loading = false
+    }
+  }
+
+  orderEntitiesByEntityType() {
+    if (this.entities && Object.keys(this.entityTypeIdToDisplayOrderMap).length) {
+      this.entities.sort((a, b) => {
+        return (this.entityTypeIdToDisplayOrderMap[a.entity_type_id || 0] > this.entityTypeIdToDisplayOrderMap[b.entity_type_id || 0]) ? 1 : -1
+      })
     }
   }
 }

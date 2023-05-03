@@ -36,7 +36,7 @@ export class EntityService {
     return await this.supabase
       .from("entity_field_value")
       .select(`value,
-        entity_field_type (field)
+        entity_field_type (field, display_order)
       `)
       .eq("entity_id", entityId)
   }

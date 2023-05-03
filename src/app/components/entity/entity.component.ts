@@ -31,17 +31,20 @@ export class EntityComponent implements OnInit {
         interface ReturnObject {
           value?: string,
           entity_field_type?: {
-            field: string
-          }
+            field: string,
+            display_order?: number
+          },
         }
         if (data) {
           const fields = data.map((returnObject) => {
             const returned = returnObject as ReturnObject
             return {
               field: returned.entity_field_type?.field,
-              value: returned.value
+              value: returned.value,
+              displayOrder: returned.entity_field_type?.display_order
             }
           })
+          fields.sort((a, b) => (a.displayOrder! > b.displayOrder!) ? 1 : -1)
           this.entityWithFields.fields = fields
         }
       } catch(error) {
