@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EntityService } from 'src/app/core/services/entity/entity.service';
-import { Entity, EntityTypeIdToDisplayOrderMap } from 'src/app/shared/models/entity.types';
+import { Entity, EntityType, EntityTypeIdToDisplayOrderMap } from 'src/app/shared/models/entity.types';
+import * as _ from "lodash"
 
 @Component({
   selector: 'app-entities',
@@ -12,6 +13,7 @@ export class EntitiesComponent implements OnInit {
   entities: Entity[] | undefined
   fields: any
   entityTypeIdToDisplayOrderMap: EntityTypeIdToDisplayOrderMap = {}
+  entityTypes: EntityType[] | undefined;
 
   constructor(private entityService: EntityService) {
   }
@@ -19,7 +21,7 @@ export class EntitiesComponent implements OnInit {
   async ngOnInit() {
     await this.getEntityTypeIdToDisplayOrderMap()
     await this.getEntities()
-    this.orderEntitiesByEntityType()
+    await this.getEntityTypes()
   }
 
   async getEntities() {
@@ -39,6 +41,32 @@ export class EntitiesComponent implements OnInit {
     } finally {
       this.loading = false
     }
+  }
+
+  async getEntityTypes() {
+    try {
+      this.loading = true
+      const { data: entityTypes, error, status } = await this.entityService.getEntityTypes()
+      if (error && status !== 406) {
+        throw error
+      }
+      if (entityTypes) {
+        this.entityTypes = _.orderBy(entityTypes, "display_order")
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message)
+      }
+    } finally {
+      this.loading = false
+    }
+  }
+
+  filterEntitiesByType(entities: Entity[] | undefined, entityType: EntityType) {
+    if (!entities || !entityType) return []
+    console.log("entities:", entities)
+    console.log("entityType:", entityType)
+    return entities.filter((entity) => entity.entity_type_id === entityType.id)
   }
 
   async getEntityTypeIdToDisplayOrderMap() {

@@ -1,6 +1,10 @@
 <h1>Entities</h1>
 
-<div *ngFor="let entity of entities">
-  {{ entity.name }}
-  <app-entity [entity]="entity"></app-entity>
+<div class="entity-types-container">
+  <div *ngFor="let entityType of entityTypes" class="entity-type-container">
+    <h2>{{ entityType.collection_name | titlecase }}</h2>
+    <div *ngFor="let entity of filterEntitiesByType(entities, entityType)">
+      <app-entity [entity]="entity"></app-entity>
+    </div>
+  </div>
 </div>
