@@ -32,6 +32,10 @@ export class EntityService {
     return await this.supabase.from("entity").select("*").eq("entity_type_id", entityTypeId)
   }
 
+  async getEntityById(entityId: number) {
+    return await this.supabase.from("entity").select("*").eq("id", entityId).limit(1).single()
+  }
+
   async getFieldsForEntity(entityId: number) {
     return await this.supabase
       .from("entity_field_value")
@@ -45,7 +49,7 @@ export class EntityService {
     return await this.supabase.from("entity_type").select("*")
   }
 
-  // async getTagsForEntity(entityId: number) {
-  //   return await this.supabase.from("entity_tag").select("*").eq()
-  // }
+  async getTagsForEntity(entityId: number) {
+    return await this.supabase.from("entity_tag").select("*").or(`entity_id.eq.${entityId},linked_entity_id.eq.${entityId}`)
+  }
 }

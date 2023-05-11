@@ -4,5 +4,6 @@
     <div *ngFor="let field of entityWithFields?.fields">
       {{ field.field }}: {{ field.value }}
     </div>
+    <app-tags [entity]="entity"></app-tags>
   </div>
 </div>

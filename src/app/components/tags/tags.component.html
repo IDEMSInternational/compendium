@@ -1,1 +1,5 @@
-<p>tags works!</p>
+<div class="tags-container">
+  <div *ngFor="let tag of tags">
+    <app-tag [entity]="tag"></app-tag>
+  </div>
+</div>

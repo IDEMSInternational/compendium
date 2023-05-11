@@ -9,6 +9,9 @@ export interface Field {
 export interface EntityWithFields extends Entity {
   fields?: Field[]
 }
+export interface EntityWithFieldsAndTags extends EntityWithFields {
+  tags?: Field[]
+}
 export interface EntityTypeIdToDisplayOrderMap {
   [id: number]: number
 }

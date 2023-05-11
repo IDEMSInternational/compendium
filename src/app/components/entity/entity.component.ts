@@ -9,11 +9,10 @@ import * as _ from "lodash"
   styleUrls: ['./entity.component.scss']
 })
 export class EntityComponent implements OnInit {
-  @Input() entity: Entity | undefined;
+  @Input() entity: Entity | EntityWithFields | undefined;
   loading: boolean = false;
   entityWithFields: EntityWithFields | undefined;
   expanded = false;
-  
 
   constructor(private entityService: EntityService) { }
 
@@ -22,9 +21,7 @@ export class EntityComponent implements OnInit {
       this.entityWithFields = this.entity
       try {
         this.loading = true
-  
         const { data, error, status } = await this.getFields(this.entity.id)
-
         if (error && status !== 406) {
           throw error
         }

@@ -1,7 +1,11 @@
 .entity-types-container {
   display: flex;
+  flex-wrap: wrap;
   .entity-type-container {
     width: 30%;
     margin: 8px;
+    padding: 8px;
+    border: 1px solid grey;
+    border-radius: 8px;
   }
 }
