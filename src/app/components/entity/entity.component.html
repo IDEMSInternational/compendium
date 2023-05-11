@@ -1,4 +1,8 @@
-<div *ngFor="let field of entityWithFields?.fields">
-  {{ field.field }}: {{ field.value }}
+<div class="entity-container" (click)="toggleExpanded()">
+  <h3>{{ entity?.name }}</h3>
+  <div *ngIf="expanded">
+    <div *ngFor="let field of entityWithFields?.fields">
+      {{ field.field }}: {{ field.value }}
+    </div>
+  </div>
 </div>
-<br>

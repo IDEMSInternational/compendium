@@ -45,4 +45,7 @@ export class EntityService {
     return await this.supabase.from("entity_type").select("*")
   }
 
+  // async getTagsForEntity(entityId: number) {
+  //   return await this.supabase.from("entity_tag").select("*").eq()
+  // }
 }

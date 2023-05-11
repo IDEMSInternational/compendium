@@ -19,6 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { AuthComponent } from './components/auth/auth.component';
 import { EntityComponent } from './components/entity/entity.component';
+import { TagsComponent } from './components/tags/tags.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { EntityComponent } from './components/entity/entity.component';
     EntitiesComponent,
     AuthComponent,
     EntityComponent,
+    TagsComponent,
   ],
   imports: [
     BrowserModule,

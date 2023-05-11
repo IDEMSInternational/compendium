@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EntityService } from 'src/app/core/services/entity/entity.service';
 import { Entity, EntityWithFields, Field } from 'src/app/shared/models/entity.types';
+import * as _ from "lodash" 
 
 @Component({
   selector: 'app-entity',
@@ -8,9 +9,10 @@ import { Entity, EntityWithFields, Field } from 'src/app/shared/models/entity.ty
   styleUrls: ['./entity.component.scss']
 })
 export class EntityComponent implements OnInit {
-  @Input() entity: Entity | undefined
+  @Input() entity: Entity | undefined;
   loading: boolean = false;
   entityWithFields: EntityWithFields | undefined;
+  expanded = false;
   
 
   constructor(private entityService: EntityService) { }
@@ -19,7 +21,6 @@ export class EntityComponent implements OnInit {
     if (this.entity) {
       this.entityWithFields = this.entity
       try {
-
         this.loading = true
   
         const { data, error, status } = await this.getFields(this.entity.id)
@@ -45,7 +46,7 @@ export class EntityComponent implements OnInit {
             }
           })
           fields.sort((a, b) => (a.displayOrder! > b.displayOrder!) ? 1 : -1)
-          this.entityWithFields.fields = fields
+          this.entityWithFields.fields = _.orderBy(fields, "displayOrder")
         }
       } catch(error) {
         if (error instanceof Error) {
@@ -59,5 +60,9 @@ export class EntityComponent implements OnInit {
 
   async getFields(entityId: number) {
     return await this.entityService.getFieldsForEntity(entityId)
+  }
+
+  toggleExpanded() {
+    this.expanded = !this.expanded
   }
 }
