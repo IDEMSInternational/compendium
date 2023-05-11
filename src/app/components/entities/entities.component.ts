@@ -64,8 +64,6 @@ export class EntitiesComponent implements OnInit {
 
   filterEntitiesByType(entities: Entity[] | undefined, entityType: EntityType) {
     if (!entities || !entityType) return []
-    console.log("entities:", entities)
-    console.log("entityType:", entityType)
     return entities.filter((entity) => entity.entity_type_id === entityType.id)
   }
 

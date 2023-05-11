@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { AuthComponent } from './components/auth/auth.component';
 import { EntityComponent } from './components/entity/entity.component';
 import { TagsComponent } from './components/tags/tags.component';
+import { TagComponent } from './components/tag/tag.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { TagsComponent } from './components/tags/tags.component';
     AuthComponent,
     EntityComponent,
     TagsComponent,
+    TagComponent,
   ],
   imports: [
     BrowserModule,
