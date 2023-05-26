@@ -3,4 +3,9 @@
   color: white;
   padding: 2px 8px;
   border-radius: 16px;
+  cursor: pointer;
+  display: flex;
+  .icon {
+    padding-left: 0.2rem;
+  }  
 }

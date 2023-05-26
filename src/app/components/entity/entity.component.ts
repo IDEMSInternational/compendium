@@ -13,6 +13,7 @@ export class EntityComponent implements OnInit {
   loading: boolean = false;
   entityWithFields: EntityWithFields | undefined;
   expanded = false;
+  editing= false;
 
   constructor(private entityService: EntityService) { }
 
@@ -61,5 +62,9 @@ export class EntityComponent implements OnInit {
 
   toggleExpanded() {
     this.expanded = !this.expanded
+  }
+ 
+  toggleEditing() {
+    this.editing = !this.editing
   }
 }

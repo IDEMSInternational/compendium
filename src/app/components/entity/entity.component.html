@@ -1,8 +1,17 @@
-<div class="entity-container" (click)="toggleExpanded()">
-  <h3>{{ entity?.name }}</h3>
+<div class="entity-container">
+  <div class="banner"  (click)="toggleExpanded()">
+    <div class="title">
+      <h3>{{ entity?.name }}</h3>
+    </div>
+    <div class="icon">
+      {{ expanded ? "–" : "+" }}
+    </div>
+  </div>
   <div *ngIf="expanded">
-    <div *ngFor="let field of entityWithFields?.fields">
-      {{ field.field }}: {{ field.value }}
+    <div class="fields-container">
+      <div *ngFor="let field of entityWithFields?.fields" class="field">
+        {{ field.field }}: {{ field.value }}
+      </div>
     </div>
     <app-tags [entity]="entity"></app-tags>
   </div>
