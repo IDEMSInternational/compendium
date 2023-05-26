@@ -1,5 +1,23 @@
 <div class="tags-container">
-  <div *ngFor="let tag of tags">
-    <app-tag [entity]="tag"></app-tag>
+  <div *ngFor="let tag of tags" class="tag-container">
+    <app-tag [entity]="tag" [removing]="editing" [parentEntity]="entity"></app-tag>
   </div>
+</div>
+<div *ngIf="editing">
+  <div class="available-tags">
+    Add tags:
+    <div *ngFor="let type of availableLinkTypes">
+      <div class="tag-type-title">
+        {{ type.collection_name }}
+      </div>
+      <div class="tags-container">
+        <div *ngFor="let tag of filterTags(availableTags, type)" class="tag-container">
+          <app-tag [entity]="tag" [adding]="true" [parentEntity]="entity"></app-tag>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <button (click)="toggleEditing()">{{ editing ? "Stop Editing Tags" : "Edit Tags" }}</button>
 </div>

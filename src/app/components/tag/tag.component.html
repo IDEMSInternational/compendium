@@ -1,3 +1,11 @@
-<div class="tag">
-  {{ entity?.name }}
+<div class="tag" (click)="handleClick()">
+  <div>
+    {{ entity?.name }}
+  </div>
+  <div *ngIf="adding" class="icon">
+    +
+  </div>
+  <div *ngIf="removing" class="icon">
+    -
+  </div>
 </div>
