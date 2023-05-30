@@ -1,6 +1,11 @@
 <div class="tags-container">
   <div *ngFor="let tag of tags" class="tag-container">
-    <app-tag [entity]="tag" [removing]="editing" [parentEntity]="entity"></app-tag>
+    <app-tag
+      [entity]="tag"
+      [removing]="editing"
+      [parentEntity]="entity"
+      (tagsChangedEvent)="tagsChanged()"
+    ></app-tag>
   </div>
 </div>
 <div *ngIf="editing">
@@ -11,13 +16,23 @@
         {{ type.collection_name }}
       </div>
       <div class="tags-container">
-        <div *ngFor="let tag of filterTags(availableTags, type)" class="tag-container">
-          <app-tag [entity]="tag" [adding]="true" [parentEntity]="entity"></app-tag>
+        <div
+          *ngFor="let tag of filterTags(availableTags, type)"
+          class="tag-container"
+        >
+          <app-tag
+            [entity]="tag"
+            [adding]="true"
+            [parentEntity]="entity"
+            (tagsChangedEvent)="tagsChanged()"
+          ></app-tag>
         </div>
       </div>
     </div>
   </div>
 </div>
 <div>
-  <button (click)="toggleEditing()">{{ editing ? "Stop Editing Tags" : "Edit Tags" }}</button>
+  <button (click)="toggleEditing()">
+    {{ editing ? "Stop Editing Tags" : "Edit Tags" }}
+  </button>
 </div>

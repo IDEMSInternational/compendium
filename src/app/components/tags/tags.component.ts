@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { EntityService } from 'src/app/core/services/entity/entity.service';
 import { Entity, EntityType } from 'src/app/shared/models/entity.types';
 
@@ -116,5 +117,13 @@ export class TagsComponent implements OnInit {
     return entities.filter(entity => {
       return !this.tags?.some(tag => tag.id === entity.id)
     })
+  }
+
+  // Hack. TODO: convert tags to observable stream and refactor to reactively update lists automatically
+  tagsChanged() {
+    setTimeout(() => {
+      this.getTags(this.entity!)
+      this.getAvailableTags(this.entity!)
+    }, 100)
   }
 }
