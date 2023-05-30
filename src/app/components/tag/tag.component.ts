@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { EntityService } from 'src/app/core/services/entity/entity.service';
 import { Entity } from 'src/app/shared/models/entity.types';
 
@@ -12,6 +12,7 @@ export class TagComponent implements OnInit {
   @Input() parentEntity: Entity | undefined;
   @Input() adding = false;
   @Input() removing = false;
+  @Output() tagsChangedEvent = new EventEmitter()
 
   constructor(private entityService: EntityService) { }
 
@@ -21,8 +22,10 @@ export class TagComponent implements OnInit {
   handleClick() {
     if (this.adding) {
       this.addTagToEntity()
+      this.tagsChangedEvent.emit()
     } else if (this.removing) {
       this.removeTagFromEntity()
+      this.tagsChangedEvent.emit()
     } else {
       // TODO: "Go to" tag
       console.log("Go to tag")
