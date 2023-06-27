@@ -21,6 +21,7 @@ import { AuthComponent } from './components/auth/auth.component';
 import { EntityComponent } from './components/entity/entity.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { TagComponent } from './components/tag/tag.component';
+import { EntityDetailComponent } from './components/entity-detail/entity-detail.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { TagComponent } from './components/tag/tag.component';
     EntityComponent,
     TagsComponent,
     TagComponent,
+    EntityDetailComponent,
   ],
   imports: [
     BrowserModule,

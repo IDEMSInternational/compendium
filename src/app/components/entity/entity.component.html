@@ -12,6 +12,9 @@
       <div *ngFor="let field of entityWithFields?.fields" class="field">
         {{ field.field }}: {{ field.value }}
       </div>
+      <a [routerLink]="['/entity']" [queryParams]="{id: entity?.id}" queryParamsHandling="merge">
+        Edit Fields
+      </a>
     </div>
     <app-tags [entity]="entity"></app-tags>
   </div>

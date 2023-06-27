@@ -1,0 +1,11 @@
+.entity-container {
+  margin: 8px 0px;
+  padding: 8px;
+  background-color: rgb(246, 246, 246);
+  border-radius: 8px;
+  .fields-container {
+    .field {
+      margin: 0.5rem 0;
+    }
+  }
+}

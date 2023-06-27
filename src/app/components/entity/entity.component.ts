@@ -10,14 +10,21 @@ import * as _ from "lodash"
 })
 export class EntityComponent implements OnInit {
   @Input() entity: Entity | EntityWithFields | undefined;
+  @Input() entityId: number | undefined;
   loading: boolean = false;
   entityWithFields: EntityWithFields | undefined;
   expanded = false;
   editing= false;
 
-  constructor(private entityService: EntityService) { }
+  constructor(protected entityService: EntityService) { }
 
   async ngOnInit() {
+    if (this.entityId) {
+      const { data: entity, error } = await this.entityService.getEntityById(this.entityId)
+      if (entity) {
+        this.entity = entity
+      }
+    }
     if (this.entity) {
       this.entityWithFields = this.entity
       try {
