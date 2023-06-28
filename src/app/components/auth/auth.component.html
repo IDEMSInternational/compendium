@@ -1,4 +1,16 @@
-<div class="row flex-center flex">
+<div>
+  <div *ngIf="!session?.user">
+    <button (click)="signInWithGoogle()">Sign in with Google</button>
+  </div>
+  <div *ngIf="session?.user">
+    <h3>
+      You are signed in as {{session?.user?.user_metadata?.["name"] || session?.user?.email}}
+    </h3>
+    <button (click)="signOut()">Sign out</button>
+  </div>
+</div>
+
+<!-- <div class="row flex-center flex">
   <div class="col-6 form-widget" aria-live="polite">
     <h1 class="header">Supabase + Angular</h1>
     <p class="description">Sign in via magic link with your email below</p>
@@ -20,4 +32,4 @@
       </div>
     </form>
   </div>
-</div>
+</div> -->

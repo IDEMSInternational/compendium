@@ -1,38 +1,53 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
-import { SupabaseService } from 'src/app/core/services/supabase/supabase.service'
+import { AuthSession } from '@supabase/supabase-js'
+import { AuthService } from 'src/app/core/services/auth/auth.service'
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   loading = false
+  session: AuthSession | null | undefined
 
-  signInForm = this.formBuilder.group({
-    email: '',
-  })
+  // signInForm = this.formBuilder.group({
+  //   email: '',
+  // })
 
   constructor(
-    private readonly supabase: SupabaseService,
-    private readonly formBuilder: FormBuilder
+    private authService: AuthService,
+    // private readonly formBuilder: FormBuilder
   ) {}
 
-  async onSubmit(): Promise<void> {
-    try {
-      this.loading = true
-      const email = this.signInForm.value.email as string
-      const { error } = await this.supabase.signIn(email)
-      if (error) throw error
-      alert('Check your email for the login link!')
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message)
-      }
-    } finally {
-      this.signInForm.reset()
-      this.loading = false
-    }
+  async ngOnInit() {
+    this.session = await this.authService.getSession()
   }
+
+  async signInWithGoogle() {
+    const { data, error } = await this.authService.signInWithGoogle()
+    this.authService.getSession()
+  }
+
+  async signOut() {
+    await this.authService.signOut()
+  }
+
+  // async onSubmit(): Promise<void> {
+  //   try {
+  //     this.loading = true
+  //     const email = this.signInForm.value.email as string
+  //     const { error } = await this.supabase.signIn(email)
+  //     if (error) throw error
+  //     alert('Check your email for the login link!')
+  //   } catch (error) {
+  //     if (error instanceof Error) {
+  //       alert(error.message)
+  //     }
+  //   } finally {
+  //     this.signInForm.reset()
+  //     this.loading = false
+  //   }
+  // }
 }

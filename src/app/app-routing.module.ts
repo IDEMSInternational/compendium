@@ -3,12 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { EntitiesComponent } from './components/entities/entities.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { EntityDetailComponent } from './components/entity-detail/entity-detail.component';
+import { AuthGuardService } from './core/services/auth-guard/auth-guard.service';
 
 const routes: Routes = [
-  {path: "", component: EntitiesComponent},
-  {path: "sign-in", component: AuthComponent},
-  {path: "entities", component: EntitiesComponent},
-  {path: "entity", component: EntityDetailComponent},
+  { path: "sign-in", component: AuthComponent },
+  { path: "", component: EntitiesComponent, canActivate: [AuthGuardService] },
+  { path: "entities", component: EntitiesComponent, canActivate: [AuthGuardService] },
+  { path: "entity", component: EntityDetailComponent, canActivate: [AuthGuardService] },
 ];
 
 @NgModule({
