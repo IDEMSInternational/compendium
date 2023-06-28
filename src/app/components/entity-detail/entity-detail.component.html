@@ -1,18 +1,20 @@
 <div class="entity-container">
   <div class="title">
-    <h3>{{ entity?.name }}</h3>
+    <h2>{{ entity?.name }}</h2>
   </div>
   <div class="fields-container">
-    <div *ngFor="let field of entityWithFields?.fields" class="field">
-      <div *ngIf="!editing">
-        {{ field.field }}: {{ field.value }}
-      </div>
-      <div *ngIf="editing">
-        {{ field.field }}: 
+    <div *ngIf="!editing">
+      <div *ngFor="let field of entityWithFields?.fields" class="field">
+        <div>
+          {{ field.field }}: {{ field.value }}
+        </div>
       </div>
     </div>
+    <div *ngIf="editing">
+      <app-dynamic-form [fields]="fields!" (newPayloadEvent)="handlePayload($event)"></app-dynamic-form>
+    </div>
     <button (click)="toggleEditing()">
-      {{ editing ? "Stop Editing Fields" : "Edit Fields" }}
+      {{ editing ? "Cancel" : "Edit Fields" }}
     </button>
     <app-tags [entity]="entity"></app-tags>
   </div>

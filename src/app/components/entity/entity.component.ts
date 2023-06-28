@@ -38,7 +38,9 @@ export class EntityComponent implements OnInit {
           value?: string,
           entity_field_type?: {
             field: string,
-            display_order?: number
+            display_order?: number,
+            id: number,
+            description: string
           },
         }
         if (data) {
@@ -47,7 +49,9 @@ export class EntityComponent implements OnInit {
             return {
               field: returned.entity_field_type?.field,
               value: returned.value,
-              displayOrder: returned.entity_field_type?.display_order
+              displayOrder: returned.entity_field_type?.display_order,
+              id: returned.entity_field_type?.id,
+              description: returned.entity_field_type?.description,
             }
           })
           fields.sort((a, b) => (a.displayOrder! > b.displayOrder!) ? 1 : -1)

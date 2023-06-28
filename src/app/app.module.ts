@@ -22,6 +22,8 @@ import { EntityComponent } from './components/entity/entity.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { TagComponent } from './components/tag/tag.component';
 import { EntityDetailComponent } from './components/entity-detail/entity-detail.component';
+import { DynamicFormComponent } from './shared/dynamic-form/components/dynamic-form/dynamic-form.component';
+import { DynamicFormFieldComponent } from './shared/dynamic-form/components/dynamic-form-field/dynamic-form-field.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { EntityDetailComponent } from './components/entity-detail/entity-detail.
     TagsComponent,
     TagComponent,
     EntityDetailComponent,
+    DynamicFormComponent,
+    DynamicFormFieldComponent
   ],
   imports: [
     BrowserModule,
