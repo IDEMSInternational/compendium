@@ -1,29 +1,54 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithPopup, signOut, GoogleAuthProvider, User } from '@angular/fire/auth';
 import { BehaviorSubject } from 'rxjs';
+import { SupabaseService } from '../supabase/supabase.service';
+import { AuthChangeEvent, AuthSession, Session, SupabaseClient, User } from '@supabase/supabase-js';
+import { Database } from 'src/app/shared/models/database.types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  public user$ = new BehaviorSubject<User | null>(null);
+  private supabase: SupabaseClient<Database>
 
-  constructor(public auth: Auth) {
+  session: AuthSession | null = null
+  public user$ = new BehaviorSubject<User | null | undefined>(null);
+
+  constructor(private supabaseService: SupabaseService) {
+    this.supabase = this.supabaseService.supabase
     this.init()
   }
 
   init() {
-    this.auth.onAuthStateChanged(user => {
-      console.log("user:", user)
-      this.user$.next(user)
+    this.getSession()
+    this.supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        this.user$.next(session.user)
+      }
     })
   }
 
-  async login() {
-    return await signInWithPopup(this.auth, new GoogleAuthProvider());
+  async getSession() {
+    const { data, error } = await this.supabase.auth.getSession()
+    if (data) {
+      this.session = data.session
+      this.user$.next(this.session?.user)
+    }
+    return this.session
   }
 
-  async logout() {
-    return await signOut(this.auth);
+  // Not currently implemented
+  async signInWithEmail(email: string) {
+    return this.supabase.auth.signInWithOtp({ email })
+  }
+
+  async signOut() {
+    await this.supabase.auth.signOut()
+    window.location.reload()
+  }
+
+  async signInWithGoogle() {
+    return await this.supabase.auth.signInWithOAuth({
+      provider: "google"
+    })
   }
 }

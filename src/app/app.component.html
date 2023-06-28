@@ -1,9 +1,12 @@
 <div id="website-container">
   <mat-toolbar>
     <nav>
-      <a routerLink="/">Home</a>
-      <a routerLink="/sign-in">Sign In</a>
-      <a routerLink="/entities">Entities</a>
+      <div>
+        <a routerLink="/sign-in">Sign In</a>
+      </div>
+      <div *ngIf="authService.user$.value">
+        <a routerLink="/entities">View Data</a>
+      </div>
     </nav>
   </mat-toolbar>
   <div id="page-content">

@@ -1,15 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  AuthChangeEvent,
-  AuthSession,
-  createClient,
-  Session,
-  SupabaseClient,
-  User,
-} from '@supabase/supabase-js'
+import { SupabaseClient } from '@supabase/supabase-js'
 import { Database } from 'src/app/shared/models/database.types';
 import { Entity } from 'src/app/shared/models/entity.types';
-import { environment } from 'src/environments/environment'
+import { SupabaseService } from '../supabase/supabase.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +10,8 @@ import { environment } from 'src/environments/environment'
 export class EntityService {
   private supabase: SupabaseClient<Database>
 
-  constructor() {
-    this.supabase = createClient<Database>(environment.supabaseConfig.supabaseUrl, environment.supabaseConfig.supabaseKey)
+  constructor(private supabaseService: SupabaseService) {
+    this.supabase = this.supabaseService.supabase
   }
 
   async getEntities() {
