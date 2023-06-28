@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { EntityService } from 'src/app/core/services/entity/entity.service';
 import { Entity, EntityType } from 'src/app/shared/models/entity.types';
 
@@ -9,7 +8,20 @@ import { Entity, EntityType } from 'src/app/shared/models/entity.types';
   styleUrls: ['./tags.component.scss']
 })
 export class TagsComponent implements OnInit {
-  @Input() entity: Entity | undefined
+  private _entity: Entity | undefined;
+
+  @Input() 
+  public set entity(value: Entity | undefined) {
+    if (value) {
+      this._entity = value
+      this.ngOnInit()
+    }
+  }
+
+  public get entity(): Entity | undefined {
+    return this._entity
+  }
+
   tags: Entity[] | undefined;
   availableTags: Entity[] = [];
   loading = false;
@@ -19,8 +31,10 @@ export class TagsComponent implements OnInit {
   constructor(private entityService: EntityService) { }
 
   ngOnInit(): void {
-    this.getTags(this.entity!)
-    this.getAvailableTags(this.entity!)
+    if (this.entity) {
+      this.getTags(this.entity)
+      this.getAvailableTags(this.entity)
+    }
   }
 
   async getTags(entity: Entity) {

@@ -41,7 +41,7 @@ export class EntityService {
     return await this.supabase
       .from("entity_field_value")
       .select(`value,
-        entity_field_type (field, display_order)
+        entity_field_type (id, field, display_order, description)
       `)
       .eq("entity_id", entityId)
   }
@@ -75,5 +75,17 @@ export class EntityService {
       .delete()
       // Remove tags that exist between the two entities in either direction
       .or(`and(entity_id.eq.${entityId},linked_entity_id.eq.${linkedEntityId}),and(entity_id.eq.${linkedEntityId},linked_entity_id.eq.${entityId})`)
+  }
+
+  async updateEntityFields(entityId: number, updates: any) {
+    for (const [entityFieldTypeId, entityFieldValue] of Object.entries(updates)) {
+      const result = await this.supabase
+        .from("entity_field_value")
+        .upsert({
+          entity_id: entityId,
+          entity_field_type_id: Number(entityFieldTypeId),
+          value: String(entityFieldValue)
+        })
+    }
   }
 }

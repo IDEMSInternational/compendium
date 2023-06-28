@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { EntityService } from 'src/app/core/services/entity/entity.service';
 import { Entity } from 'src/app/shared/models/entity.types';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tag',
@@ -14,7 +15,7 @@ export class TagComponent implements OnInit {
   @Input() removing = false;
   @Output() tagsChangedEvent = new EventEmitter()
 
-  constructor(private entityService: EntityService) { }
+  constructor(private entityService: EntityService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -27,8 +28,7 @@ export class TagComponent implements OnInit {
       this.removeTagFromEntity()
       this.tagsChangedEvent.emit()
     } else {
-      // TODO: "Go to" tag
-      console.log("Go to tag")
+      this.router.navigate(['/entity'], { queryParams: { id: this.entity?.id } })
     }
   }
 

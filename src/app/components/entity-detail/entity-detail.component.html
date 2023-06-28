@@ -1,0 +1,21 @@
+<div class="entity-container">
+  <div class="title">
+    <h2>{{ entity?.name }}</h2>
+  </div>
+  <div class="fields-container">
+    <div *ngIf="!editing">
+      <div *ngFor="let field of entityWithFields?.fields" class="field">
+        <div>
+          {{ field.field }}: {{ field.value }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="editing">
+      <app-dynamic-form [fields]="fields!" (newPayloadEvent)="handlePayload($event)"></app-dynamic-form>
+    </div>
+    <button (click)="toggleEditing()">
+      {{ editing ? "Cancel" : "Edit Fields" }}
+    </button>
+    <app-tags [entity]="entity"></app-tags>
+  </div>
+</div>

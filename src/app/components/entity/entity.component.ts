@@ -10,14 +10,21 @@ import * as _ from "lodash"
 })
 export class EntityComponent implements OnInit {
   @Input() entity: Entity | EntityWithFields | undefined;
+  @Input() entityId: number | undefined;
   loading: boolean = false;
   entityWithFields: EntityWithFields | undefined;
   expanded = false;
   editing= false;
 
-  constructor(private entityService: EntityService) { }
+  constructor(protected entityService: EntityService) { }
 
   async ngOnInit() {
+    if (this.entityId) {
+      const { data: entity, error } = await this.entityService.getEntityById(this.entityId)
+      if (entity) {
+        this.entity = entity
+      }
+    }
     if (this.entity) {
       this.entityWithFields = this.entity
       try {
@@ -31,7 +38,9 @@ export class EntityComponent implements OnInit {
           value?: string,
           entity_field_type?: {
             field: string,
-            display_order?: number
+            display_order?: number,
+            id: number,
+            description: string
           },
         }
         if (data) {
@@ -40,7 +49,9 @@ export class EntityComponent implements OnInit {
             return {
               field: returned.entity_field_type?.field,
               value: returned.value,
-              displayOrder: returned.entity_field_type?.display_order
+              displayOrder: returned.entity_field_type?.display_order,
+              id: returned.entity_field_type?.id,
+              description: returned.entity_field_type?.description,
             }
           })
           fields.sort((a, b) => (a.displayOrder! > b.displayOrder!) ? 1 : -1)

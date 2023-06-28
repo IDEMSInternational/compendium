@@ -21,6 +21,8 @@ import { AuthComponent } from './components/auth/auth.component';
 import { EntityComponent } from './components/entity/entity.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { TagComponent } from './components/tag/tag.component';
+import { EntityDetailComponent } from './components/entity-detail/entity-detail.component';
+import { DynamicFormModule } from './shared/dynamic-form/dynamic-form.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { TagComponent } from './components/tag/tag.component';
     EntityComponent,
     TagsComponent,
     TagComponent,
+    EntityDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import { TagComponent } from './components/tag/tag.component';
     MatIconModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    DynamicFormModule
   ],
   providers: [],
   bootstrap: [AppComponent]
