@@ -23,7 +23,9 @@ export class EntityDetailComponent extends EntityComponent implements OnInit, On
     this.queryParamsSubscription = this.route.queryParams.subscribe(async params => {
       this.entityId = params['id']
       await super.ngOnInit()
-      this.fields = this.entityWithFields?.fields?.map((field) => this.fieldService.convertFieldToFormField(field))
+      this.fields = this.entityWithFields?.fields?.map((field) => {
+        return this.fieldService.convertFieldToFormField(field)
+      })
 
       // Better to use entityService.getFields(id) that returns observable ? Then use like this:
       // this.fields$ = this.fieldService.getFields()

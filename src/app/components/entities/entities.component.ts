@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EntityService } from 'src/app/core/services/entity/entity.service';
 import { Entity, EntityType, EntityTypeIdToDisplayOrderMap } from 'src/app/shared/models/entity.types';
 import * as _ from "lodash"
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-entities',
@@ -15,7 +16,7 @@ export class EntitiesComponent implements OnInit {
   entityTypeIdToDisplayOrderMap: EntityTypeIdToDisplayOrderMap = {}
   entityTypes: EntityType[] | undefined;
 
-  constructor(private entityService: EntityService) {
+  constructor(private entityService: EntityService, private router: Router) {
   }
 
   async ngOnInit() {
@@ -95,6 +96,35 @@ export class EntitiesComponent implements OnInit {
       this.entities.sort((a, b) => {
         return (this.entityTypeIdToDisplayOrderMap[a.entity_type_id || 0] > this.entityTypeIdToDisplayOrderMap[b.entity_type_id || 0]) ? 1 : -1
       })
+    }
+  }
+
+  async createNewEntity(entityTypeId: number) {
+    let newEntityId = 0
+    try {
+      this.loading = true
+      const { data, error } = await this.entityService.createEntity(entityTypeId)
+      console.log("data", data)
+      console.log("error", error)
+      if (error) {
+        throw error
+      }
+
+      if (data) {
+        newEntityId = data[0].id
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message)
+      }
+    } finally {
+      this.loading = false
+      if (newEntityId) {
+        this.router.navigate(
+          ['/entity'],
+          { queryParams: { id: newEntityId, editing: true } }
+        )
+      }
     }
   }
 }
