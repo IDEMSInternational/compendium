@@ -11,5 +11,13 @@
     @media only screen and (min-width: 600px) {
       width:40%;
     }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      button {
+        margin: 4px 0;
+      }
+    }
   }
 }

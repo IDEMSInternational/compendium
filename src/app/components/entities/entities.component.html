@@ -2,7 +2,10 @@
 
 <div class="entity-types-container">
   <div *ngFor="let entityType of entityTypes" class="entity-type-container">
-    <h2>{{ entityType.collection_name | titlecase }}</h2>
+    <div class="header">
+      <h2>{{ entityType.collection_name | titlecase }}</h2>
+      <button (click)="createNewEntity(entityType.id)">Add new</button>
+    </div>
     <div *ngFor="let entity of filterEntitiesByType(entities, entityType)">
       <app-entity [entity]="entity"></app-entity>
     </div>

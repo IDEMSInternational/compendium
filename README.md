@@ -28,4 +28,4 @@ There is a [supabase project](https://app.supabase.com/project/sryrsmsaaaewombnk
 
 ## Running locally
 
-Run `ng serve` to serve the app locally on [localhost:4200](http://localhost:4200/). The app will connect to the live supabase database.
+Run `ng serve` to serve the app locally on [localhost:4200](http://localhost:4200/). The app will connect to the live supabase database. A secret `supabaseConfig.ts` file is required for connecting, contact a dev for access.
