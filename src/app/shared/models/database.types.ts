@@ -3,56 +3,48 @@ export type Json =
   | number
   | boolean
   | null
-  | { [key: string]: Json }
+  | { [key: string]: Json | undefined }
   | Json[]
 
 export interface Database {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       entity: {
         Row: {
           created_at: string | null
+          display_field_type_id: number | null
           entity_type_id: number | null
           id: number
           name: string | null
         }
         Insert: {
           created_at?: string | null
+          display_field_type_id?: number | null
           entity_type_id?: number | null
           id?: number
           name?: string | null
         }
         Update: {
           created_at?: string | null
+          display_field_type_id?: number | null
           entity_type_id?: number | null
           id?: number
           name?: string | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "entity_display_field_type_id_fkey"
+            columns: ["display_field_type_id"]
+            referencedRelation: "entity_field_type"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_entity_type_id_fkey"
+            columns: ["entity_type_id"]
+            referencedRelation: "entity_type"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       entity_field_type: {
         Row: {
@@ -82,6 +74,14 @@ export interface Database {
           field?: string
           id?: number
         }
+        Relationships: [
+          {
+            foreignKeyName: "entity_field_type_entity_type_id_fkey"
+            columns: ["entity_type_id"]
+            referencedRelation: "entity_type"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       entity_field_value: {
         Row: {
@@ -102,6 +102,20 @@ export interface Database {
           entity_id?: number
           value?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "entity_field_value_entity_field_type_id_fkey"
+            columns: ["entity_field_type_id"]
+            referencedRelation: "entity_field_type"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_field_value_entity_id_fkey"
+            columns: ["entity_id"]
+            referencedRelation: "entity"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       entity_link: {
         Row: {
@@ -122,6 +136,20 @@ export interface Database {
           link_entity_type_id?: number
           multiple?: boolean
         }
+        Relationships: [
+          {
+            foreignKeyName: "entity_link_entity_type_id_fkey"
+            columns: ["entity_type_id"]
+            referencedRelation: "entity_type"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_link_link_entity_type_id_fkey"
+            columns: ["link_entity_type_id"]
+            referencedRelation: "entity_type"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       entity_tag: {
         Row: {
@@ -145,6 +173,32 @@ export interface Database {
           linked_entity_id?: number
           linked_entity_type_id?: number
         }
+        Relationships: [
+          {
+            foreignKeyName: "entity_tag_entity_id_fkey"
+            columns: ["entity_id"]
+            referencedRelation: "entity"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_tag_entity_type_id_fkey"
+            columns: ["entity_type_id"]
+            referencedRelation: "entity_type"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_tag_linked_entity_id_fkey"
+            columns: ["linked_entity_id"]
+            referencedRelation: "entity"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_tag_linked_entity_type_id_fkey"
+            columns: ["linked_entity_type_id"]
+            referencedRelation: "entity_type"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       entity_type: {
         Row: {
@@ -171,6 +225,7 @@ export interface Database {
           id?: number
           name?: string
         }
+        Relationships: []
       }
     }
     Views: {
@@ -178,156 +233,6 @@ export interface Database {
     }
     Functions: {
       [_ in never]: never
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-  storage: {
-    Tables: {
-      buckets: {
-        Row: {
-          allowed_mime_types: string[] | null
-          avif_autodetection: boolean | null
-          created_at: string | null
-          file_size_limit: number | null
-          id: string
-          name: string
-          owner: string | null
-          public: boolean | null
-          updated_at: string | null
-        }
-        Insert: {
-          allowed_mime_types?: string[] | null
-          avif_autodetection?: boolean | null
-          created_at?: string | null
-          file_size_limit?: number | null
-          id: string
-          name: string
-          owner?: string | null
-          public?: boolean | null
-          updated_at?: string | null
-        }
-        Update: {
-          allowed_mime_types?: string[] | null
-          avif_autodetection?: boolean | null
-          created_at?: string | null
-          file_size_limit?: number | null
-          id?: string
-          name?: string
-          owner?: string | null
-          public?: boolean | null
-          updated_at?: string | null
-        }
-      }
-      migrations: {
-        Row: {
-          executed_at: string | null
-          hash: string
-          id: number
-          name: string
-        }
-        Insert: {
-          executed_at?: string | null
-          hash: string
-          id: number
-          name: string
-        }
-        Update: {
-          executed_at?: string | null
-          hash?: string
-          id?: number
-          name?: string
-        }
-      }
-      objects: {
-        Row: {
-          bucket_id: string | null
-          created_at: string | null
-          id: string
-          last_accessed_at: string | null
-          metadata: Json | null
-          name: string | null
-          owner: string | null
-          path_tokens: string[] | null
-          updated_at: string | null
-        }
-        Insert: {
-          bucket_id?: string | null
-          created_at?: string | null
-          id?: string
-          last_accessed_at?: string | null
-          metadata?: Json | null
-          name?: string | null
-          owner?: string | null
-          path_tokens?: string[] | null
-          updated_at?: string | null
-        }
-        Update: {
-          bucket_id?: string | null
-          created_at?: string | null
-          id?: string
-          last_accessed_at?: string | null
-          metadata?: Json | null
-          name?: string | null
-          owner?: string | null
-          path_tokens?: string[] | null
-          updated_at?: string | null
-        }
-      }
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      extension: {
-        Args: {
-          name: string
-        }
-        Returns: string
-      }
-      filename: {
-        Args: {
-          name: string
-        }
-        Returns: string
-      }
-      foldername: {
-        Args: {
-          name: string
-        }
-        Returns: string[]
-      }
-      get_size_by_bucket: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          size: number
-          bucket_id: string
-        }[]
-      }
-      search: {
-        Args: {
-          prefix: string
-          bucketname: string
-          limits?: number
-          levels?: number
-          offsets?: number
-          search?: string
-          sortcolumn?: string
-          sortorder?: string
-        }
-        Returns: {
-          name: string
-          id: string
-          updated_at: string
-          created_at: string
-          last_accessed_at: string
-          metadata: Json
-        }[]
-      }
     }
     Enums: {
       [_ in never]: never
@@ -337,4 +242,3 @@ export interface Database {
     }
   }
 }
-
