@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
-import { AddPersonComponent } from './components/add-person/add-person.component';
 import { EntitiesComponent } from './components/entities/entities.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,7 +26,6 @@ import { DynamicFormModule } from './shared/dynamic-form/dynamic-form.module';
 @NgModule({
   declarations: [
     AppComponent,
-    AddPersonComponent,
     EntitiesComponent,
     AuthComponent,
     EntityComponent,
