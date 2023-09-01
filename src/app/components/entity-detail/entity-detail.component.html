@@ -1,21 +1,44 @@
 <div class="entity-container">
-  <div class="title">
-    <h2>{{ entity?.name }}</h2>
-  </div>
-  <div class="fields-container">
-    <div *ngIf="!editing">
-      <div *ngFor="let field of entityWithFields?.fields" class="field">
+  <ng-container *ngIf="deleted">
+    Entity deleted
+    <br>
+    <button [routerLink]="['/entities']">Return</button>
+  </ng-container>
+  <ng-container *ngIf="!deleted">
+    <div class="title">
+      <h2>{{ entityWithFields?.displayField?.value }}</h2>
+    </div>
+    <div class="fields-container">
+      <div *ngIf="!editing">
+        <div *ngFor="let field of entityWithFields?.fields" class="field">
+          <div>{{ field.field }}: {{ field.value }}</div>
+        </div>
+      </div>
+      <div *ngIf="editing">
         <div>
-          {{ field.field }}: {{ field.value }}
+          Entity name (legacy, copy over to relevant field): {{ entity?.name }}
+        </div>
+        <app-dynamic-form
+          [fields]="fields!"
+          (newPayloadEvent)="handlePayload($event)"
+        ></app-dynamic-form>
+      </div>
+      <button (click)="toggleEditing()">
+        {{ editing ? "Cancel" : "Edit Fields" }}
+      </button>
+      <app-tags [entity]="entity"></app-tags>
+      <div class="delete-section">
+        <button *ngIf="!deleting" (click)="toggleDeleting()" class="btn-danger">
+          Delete
+        </button>
+        <div *ngIf="deleting">
+          Are you sure you want to delete
+          {{ entityWithFields?.displayField?.value || "this entity" }}?
+          <br />
+          <button (click)="toggleDeleting()">Cancel</button>
+          <button (click)="deleteEntity()" class="btn-danger">Delete</button>
         </div>
       </div>
     </div>
-    <div *ngIf="editing">
-      <app-dynamic-form [fields]="fields!" (newPayloadEvent)="handlePayload($event)"></app-dynamic-form>
-    </div>
-    <button (click)="toggleEditing()">
-      {{ editing ? "Cancel" : "Edit Fields" }}
-    </button>
-    <app-tags [entity]="entity"></app-tags>
-  </div>
+  </ng-container>
 </div>

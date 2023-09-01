@@ -12,6 +12,7 @@ export interface Field {
 }
 export interface EntityWithFields extends Entity {
   fields?: Field[]
+  displayField?: Field
 }
 export interface EntityWithFieldsAndTags extends EntityWithFields {
   tags?: Field[]

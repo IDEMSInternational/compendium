@@ -51,6 +51,13 @@ export class EntityComponent implements OnInit {
           } as Field
         }))
         this.entityWithFields!.fields = _.orderBy(fieldsWithValues, "displayOrder")
+
+        // Assign a display field to be diplasyed as the entity's name
+        const { data: displayFieldTypeData } = await this.entityService.getDisplayFieldTypeId(this.entity!.entity_type_id!)
+        const displayFieldTypeId = displayFieldTypeData?.display_field_type_id
+        this.entityWithFields!.displayField = displayFieldTypeId
+          ? this.entityWithFields?.fields.find((field) => field.id === displayFieldTypeId)
+          : this.entityWithFields?.fields[0]
       }
     } catch (error) {
       if (error instanceof Error) {

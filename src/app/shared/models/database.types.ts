@@ -12,32 +12,23 @@ export interface Database {
       entity: {
         Row: {
           created_at: string | null
-          display_field_type_id: number | null
           entity_type_id: number | null
           id: number
           name: string | null
         }
         Insert: {
           created_at?: string | null
-          display_field_type_id?: number | null
           entity_type_id?: number | null
           id?: number
           name?: string | null
         }
         Update: {
           created_at?: string | null
-          display_field_type_id?: number | null
           entity_type_id?: number | null
           id?: number
           name?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "entity_display_field_type_id_fkey"
-            columns: ["display_field_type_id"]
-            referencedRelation: "entity_field_type"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "entity_entity_type_id_fkey"
             columns: ["entity_type_id"]
@@ -205,6 +196,7 @@ export interface Database {
           collection_name: string | null
           created_at: string | null
           description: string | null
+          display_field_type_id: number | null
           display_order: number | null
           id: number
           name: string
@@ -213,6 +205,7 @@ export interface Database {
           collection_name?: string | null
           created_at?: string | null
           description?: string | null
+          display_field_type_id?: number | null
           display_order?: number | null
           id?: number
           name: string
@@ -221,11 +214,19 @@ export interface Database {
           collection_name?: string | null
           created_at?: string | null
           description?: string | null
+          display_field_type_id?: number | null
           display_order?: number | null
           id?: number
           name?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "entity_type_display_field_type_id_fkey"
+            columns: ["display_field_type_id"]
+            referencedRelation: "entity_field_type"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {

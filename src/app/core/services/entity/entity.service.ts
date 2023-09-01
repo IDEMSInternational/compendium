@@ -30,6 +30,10 @@ export class EntityService {
     return await this.supabase.from("entity").select("*").eq("id", entityId).limit(1).single()
   }
 
+  async getDisplayFieldTypeId(entityTypeId: number) {
+    return await this.supabase.from("entity_type").select("display_field_type_id").eq("id", entityTypeId).limit(1).single()
+  }
+
   async getFieldsForEntity(entityId: number) {
     return await this.supabase
       .from("entity_field_value")
@@ -104,5 +108,9 @@ export class EntityService {
         entity_type_id: entityTypeId
       })
       .select()
+  }
+
+  async deleteEntity(entityId: number) {
+    return await this.supabase.from("entity").delete().eq("id", entityId)
   }
 }

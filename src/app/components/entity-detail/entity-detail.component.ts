@@ -13,6 +13,8 @@ import { FieldBase } from 'src/app/shared/dynamic-form/field-base';
 })
 export class EntityDetailComponent extends EntityComponent implements OnInit, OnDestroy {
   fields: FieldBase<any>[] | undefined;
+  deleting: boolean = false;
+  deleted: boolean = false;
   queryParamsSubscription: Subscription | undefined;
 
   constructor(entityService: EntityService, private route: ActivatedRoute, private fieldService: FieldService) {
@@ -21,11 +23,12 @@ export class EntityDetailComponent extends EntityComponent implements OnInit, On
 
   override async ngOnInit() {
     this.queryParamsSubscription = this.route.queryParams.subscribe(async params => {
-      this.entityId = params['id']
+      this.entityId = params["id"]
       await super.ngOnInit()
       this.fields = this.entityWithFields?.fields?.map((field) => {
         return this.fieldService.convertFieldToFormField(field)
       })
+      this.editing = params["editing"]
 
       // Better to use entityService.getFields(id) that returns observable ? Then use like this:
       // this.fields$ = this.fieldService.getFields()
@@ -37,6 +40,15 @@ export class EntityDetailComponent extends EntityComponent implements OnInit, On
     this.queryParamsSubscription?.unsubscribe()
     this.editing = false
     await this.ngOnInit()
+  }
+
+  toggleDeleting() {
+    this.deleting = !this.deleting
+  }
+
+  async deleteEntity() {
+    await this.entityService.deleteEntity(this.entity!.id)
+    this.deleted = true
   }
 
   ngOnDestroy() {
