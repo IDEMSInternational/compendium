@@ -1,20 +1,20 @@
 <div class="entity-container">
   <div class="banner"  (click)="toggleExpanded()">
     <div class="title">
-      <h3>{{ entity?.name }}</h3>
+      <h3>{{ entityWithFields?.displayField?.value }}</h3>
     </div>
     <div class="icon">
       {{ expanded ? "–" : "+" }}
     </div>
   </div>
   <div *ngIf="expanded">
+    <button [routerLink]="['/entity']" [queryParams]="{id: entity?.id}" queryParamsHandling="merge">
+      Edit
+    </button>
     <div class="fields-container">
       <div *ngFor="let field of entityWithFields?.fields" class="field">
         {{ field.field }}: {{ field.value }}
       </div>
-      <a [routerLink]="['/entity']" [queryParams]="{id: entity?.id}" queryParamsHandling="merge">
-        Edit Fields
-      </a>
     </div>
     <app-tags [entity]="entity"></app-tags>
   </div>
