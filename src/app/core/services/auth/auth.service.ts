@@ -37,8 +37,11 @@ export class AuthService {
   }
 
   // Not currently implemented
-  async signInWithEmail(email: string) {
-    return this.supabase.auth.signInWithOtp({ email })
+  async signInWithEmail(email: string, password: string) {
+      return await this.supabase.auth.signInWithPassword({
+          email: email,
+          password: password,
+      });
   }
 
   async signOut() {

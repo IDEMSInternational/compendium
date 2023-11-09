@@ -1,4 +1,4 @@
-import { supabaseConfig, supabaseConfigLocal } from "./supabaseConfig";
+import { supabaseConfig } from "./supabaseConfig";
 
 export const environment = {
   supabaseConfig,

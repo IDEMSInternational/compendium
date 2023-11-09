@@ -30,6 +30,11 @@ export class AuthComponent implements OnInit {
     this.authService.getSession()
   }
 
+  async signInWithPassword() {
+    const { data, error } = await this.authService.signInWithEmail("chris.marsh@idems.international","G@_F9QLZ5Jp!4kw")
+    this.authService.getSession()
+  }
+
   async signOut() {
     await this.authService.signOut()
   }

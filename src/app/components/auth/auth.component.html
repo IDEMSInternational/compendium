@@ -1,6 +1,7 @@
 <div>
   <div *ngIf="!session?.user">
     <button (click)="signInWithGoogle()">Sign in with Google</button>
+    <button (click)=" signInWithPassword()">Sign in with Password</button>?
   </div>
   <div *ngIf="session?.user">
     <h3>

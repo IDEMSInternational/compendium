@@ -22,6 +22,7 @@ import { TagsComponent } from './components/tags/tags.component';
 import { TagComponent } from './components/tag/tag.component';
 import { EntityDetailComponent } from './components/entity-detail/entity-detail.component';
 import { DynamicFormModule } from './shared/dynamic-form/dynamic-form.module';
+import { EntityTypesComponent } from './components/entity-types/entity-types.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { DynamicFormModule } from './shared/dynamic-form/dynamic-form.module';
     TagsComponent,
     TagComponent,
     EntityDetailComponent,
+    EntityTypesComponent,
   ],
   imports: [
     BrowserModule,
